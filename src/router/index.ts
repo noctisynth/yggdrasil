@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import PackagesView from "../views/packages/index.vue";
 import { type RouteRecordRaw } from "vue-router";
 
 const views = import.meta.glob([
@@ -23,8 +22,6 @@ const routes: RouteRecordRaw[] = Object.entries(views).map(
   }
 );
 
-console.table(routes);
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -32,11 +29,6 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
-    },
-    {
-      path: "/packages",
-      name: "packages",
-      component: PackagesView,
     },
     ...routes,
   ],
