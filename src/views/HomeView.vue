@@ -4,12 +4,13 @@ import InputText from 'primevue/inputtext';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 import Divider from 'primevue/divider';
+import { color_class } from '@/scripts/theme';
 </script>
 
 <template>
     <main>
         <Header></Header>
-        <div class="bg-primary-400 p-8 pt-7 mt-0 flex align-items-center justify-content-center mb-3 flex-column">
+        <div :class="`${color_class} p-8 pt-7 mt-0 flex align-items-center justify-content-center mb-3 flex-column`">
             <div class="flex flex-column text-white pb-7 align-items-center justify-content-center">
                 <h1>世界树</h1>
                 <span>Infini 社区的规则包服务器, 此节点由浊莲提供服务</span>
@@ -40,7 +41,7 @@ import Divider from 'primevue/divider';
                 </Card>
             </div>
         </div>
-        <div class="bg-primary-400">
+        <div :class="`${color_class}`">
             <div class="p-8 pt-7 mt-6 flex align-items-center justify-content-between mb-3 flex-row flex-wrap gap-7">
                 <div class="flex flex-column text-white align-items-start justify-content-center">
                     <h3 class="pl-3">帮助</h3>

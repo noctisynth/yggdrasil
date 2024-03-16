@@ -2,7 +2,11 @@
 import { ref } from "vue";
 import Avatar from 'primevue/avatar';
 import router from "@/router";
+import Button from "primevue/button";
+import { is_light_theme, changeTheme } from "@/scripts/theme";
+import { usePrimeVue } from "primevue/config";
 
+const PrimeVue = usePrimeVue()
 const items = ref([
     {
         label: '主页',
@@ -40,7 +44,11 @@ if (path === '') {
             <Avatar label="∞"></Avatar>
             <span>世界树</span>
         </div>
-        <TabMenu :active-index="active" :model="items"></TabMenu>
+        <div class="flex flex-row">
+            <Button @click="changeTheme(PrimeVue)" v-if="is_light_theme" icon="pi pi-sun" plain text></Button>
+            <Button @click="changeTheme(PrimeVue)" v-else icon="pi pi-moon" plain text></Button>
+            <TabMenu :active-index="active" :model="items"></TabMenu>
+        </div>
     </div>
 </template>
 
