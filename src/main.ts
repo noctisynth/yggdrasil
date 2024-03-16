@@ -1,6 +1,5 @@
-import "primevue/resources/themes/aura-light-green/theme.css";
 import "primeflex/primeflex.min.css";
-import 'primeicons/primeicons.css'
+import "primeicons/primeicons.css";
 
 import { createApp } from "vue";
 import App from "./App.vue";
@@ -22,9 +21,9 @@ app.use(router);
 app.component("Toast", Toast);
 app.component("TabMenu", TabMenu);
 app.component("Toolbar", Toolbar);
-app.component("Listbox", Listbox)
-app.component("Button", Button)
-app.component("Card", Card)
+app.component("Listbox", Listbox);
+app.component("Button", Button);
+app.component("Card", Card);
 app.use(ToastService);
 
 app.mount("#app");
