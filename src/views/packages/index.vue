@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Header from '@/components/Header.vue';
-import packages from './packages';
+import packages from '@/scripts/packages';
 import InputText from 'primevue/inputtext';
 import { useRouter } from 'vue-router';
 
