@@ -36,10 +36,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build with VitePress
+      - name: Build
         run: |
           npm run build
-          touch docs/.vitepress/dist/.nojekyll
+          touch dist/.nojekyll
           echo "yggdrasil.noctisynth.org" >> dist/CNAME
 
       - name: Upload artifact
