@@ -125,10 +125,4 @@ md.render(jsonData.readme)
         grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
     }
 }
-
-.license {
-    width: 100px;
-    height: 100px;
-    background-image: url("@/assets/license.svg");
-}
 </style>
