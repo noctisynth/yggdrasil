@@ -8,13 +8,23 @@ import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Panel from 'primevue/panel';
 import Tag from 'primevue/tag';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import packages from '@/scripts/packages';
 
 const jsonData: any = plainData;
+const index: any = packages.find(item => item.name === jsonData.metadata.name);
+const distributions = index.distributions;
+
 const md = new MarkdownIt();
 
-function slice_url(urlString: string): string {
+function slice_url(urlString: string, host: boolean = true): string {
     const url = new URL(urlString)
-    return url.pathname.slice(1)
+    if (host) {
+        return url.host + url.pathname.slice(1)
+    } else {
+        return url.pathname.slice(1)
+    }
 }
 
 function link_to(url: string, blank?: boolean) {
@@ -23,6 +33,15 @@ function link_to(url: string, blank?: boolean) {
     } else {
         window.location.href = url;
     }
+}
+
+function tablize(data: { [key: string]: string }): {
+    name: string;
+    desc: unknown;
+}[] {
+    return Object.entries(data).map(([key, value]) => {
+        return { name: key, desc: md.render(value) };
+    })
 }
 </script>
 
@@ -39,9 +58,14 @@ function link_to(url: string, blank?: boolean) {
                                 {{ jsonData.metadata.name }}
                                 <span class="text-base text-gray-400">v{{ jsonData.metadata.version }}</span>
                             </h1>
-                            <Button v-if="jsonData.metadata.urls.homepage !== undefined"
-                                @click="link_to(jsonData.metadata.urls.homepage, true)" icon="pi pi-github" plain
-                                text></Button>
+                            <div>
+                                <Button v-if="jsonData.metadata.urls.homepage !== undefined"
+                                    @click="link_to(jsonData.metadata.urls.homepage, true)" icon="pi pi-home" plain
+                                    text></Button>
+                                <Button v-if="jsonData.metadata.urls.repository !== undefined"
+                                    @click="link_to(jsonData.metadata.urls.repository, true)" icon="pi pi-github" plain
+                                    text></Button>
+                            </div>
                         </div>
                     </template>
                     <template #content>
@@ -58,7 +82,7 @@ function link_to(url: string, blank?: boolean) {
                     </template>
                 </Card>
 
-                <TabView class="w-full">
+                <TabView class="w-full md">
                     <TabPanel header="自述">
                         <div class="readme pt-2">
                             <div>
@@ -93,18 +117,11 @@ function link_to(url: string, blank?: boolean) {
                                     <h2 class="pl-2 text-lg">安装</h2>
                                     <div class="flex flex-column align-items-start pb-1 pt-1 p-3 gap-3">
                                         <Panel header="IPM 安装" class="w-full">
-                                            <p class="m-0">
-                                                <code class="text-cascadia p-2 border-round"
-                                                    style="background-color: var(--highlight-bg);">ipm add {{ jsonData.metadata.name
-                                    }}</code>
-                                            </p>
+                                            <pre class="m-0"><code>ipm add {{ jsonData.metadata.name }}</code></pre>
                                         </Panel>
                                         <Panel header="使用 infini.toml" class="w-full">
-                                            <p class="m-0">
-                                                <code class="text-cascadia p-2 border-round"
-                                                    style="background-color: var(--highlight-bg);">{{ jsonData.metadata.name
-                                    }} = {{ jsonData.metadata.version }}</code>
-                                            </p>
+                                            <pre class="m-0"><code>{{ jsonData.metadata.name }} = {{ jsonData.metadata.version
+                                    }}</code></pre>
                                         </Panel>
                                     </div>
                                 </div>
@@ -121,7 +138,8 @@ function link_to(url: string, blank?: boolean) {
                                     <h2 class="pl-2 text-lg">文档</h2>
                                     <div class="flex flex-column align-items-start pb-1">
                                         <Button @click="link_to(jsonData.metadata.urls.documentation)" icon="pi pi-box"
-                                            :label="jsonData.metadata.urls.documentation" class="w-full" plain text>
+                                            :label="slice_url(jsonData.metadata.urls.documentation)" class="w-full"
+                                            plain text>
                                         </Button>
                                     </div>
                                 </div>
@@ -129,8 +147,8 @@ function link_to(url: string, blank?: boolean) {
                                     <h2 class="pl-2 text-lg">仓库</h2>
                                     <div class="flex flex-column align-items-start pb-1">
                                         <Button @click="link_to(jsonData.metadata.urls.repository)" icon="pi pi-github"
-                                            :label="slice_url(jsonData.metadata.urls.repository)" class="w-full" plain
-                                            text>
+                                            :label="slice_url(jsonData.metadata.urls.repository, false)" class="w-full"
+                                            plain text>
                                         </Button>
                                     </div>
                                 </div>
@@ -145,7 +163,55 @@ function link_to(url: string, blank?: boolean) {
                             </div>
                         </div>
                     </TabPanel>
-                    <TabPanel header="指令文档"></TabPanel>
+                    <TabPanel header="指令文档">
+                        <Panel header="规则包指令">
+                            <div v-for="(event, name) in jsonData.handlers">
+                                <h2><code>{{ name }}</code>指令</h2>
+                                <span v-if="event.description !== null" class="text-gray-400 pl-2">{{ event.description
+                                    }}</span>
+                                <pre v-if="event.usage !== null"><code>{{ event.usage }}</code></pre>
+                            </div>
+                        </Panel>
+                    </TabPanel>
+                    <TabPanel v-if="jsonData.events" header="消息事件">
+                        <Panel header="消息事件">
+                            <div v-for="(event, name) in jsonData.events">
+                                <h2><code>{{ name }}</code></h2>
+                                <span v-if="event.description !== null" class="text-gray-400 pl-2">{{ event.description
+                                    }}</span>
+                                <DataTable class="m-2 p-2" showGridlines stripedRows
+                                    v-if="Object.keys(event.var_doc).length !== 0" :value="tablize(event.var_doc)">
+                                    <Column field="name" header="变量"></Column>
+                                    <Column field="desc" header="描述">
+                                        <template #body="slotProps">
+                                            <div v-html="slotProps.data.desc"></div>
+                                        </template>
+                                    </Column>
+                                </DataTable>
+                            </div>
+                        </Panel>
+                    </TabPanel>
+                    <TabPanel v-if="Object.keys(jsonData.global_variables).length !== 0" header="全局变量">
+                        <Panel header="全局变量">
+                            <div v-for="(event, name) in jsonData.global_variables">
+                                <h2><code>{{ name }}</code></h2>
+                                <span v-if="event.description !== null" class="text-gray-400 pl-2">{{ event.description
+                                    }}</span>
+                                <pre v-if="event.usage !== null"><code>{{ event.usage }}</code></pre>
+                            </div>
+                        </Panel>
+                    </TabPanel>
+                    <TabPanel v-if="Object.keys(jsonData.interceptors).length !== 0" header="拦截器">
+                        <Panel header="拦截器">
+                            <div v-for="(event, name) in jsonData.interceptors">
+                                <h2><code>{{ name }}</code>拦截器</h2>
+                                <span v-if="event.description !== null" class="text-gray-400 pl-2">{{ event.description
+                                    }}</span>
+                                <pre v-if="event.usage !== null"><code>{{ event.usage }}</code></pre>
+                            </div>
+                        </Panel>
+                    </TabPanel>
+                    <TabPanel v-if="distributions !== undefined" header="依赖"></TabPanel>
                 </TabView>
             </div>
         </div>
@@ -180,5 +246,42 @@ function link_to(url: string, blank?: boolean) {
         display: grid;
         grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
     }
+}
+</style>
+
+<style>
+.md code:not(pre code) {
+    background-color: var(--highlight-bg);
+    font-family: 'Cascadia Mono', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+    tab-size: 4;
+    text-align: left;
+    border-radius: 0.7rem;
+}
+
+.md pre>code {
+    background-color: var(--highlight-bg);
+    font-family: 'Cascadia Mono', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: block;
+    padding: 0 20px;
+    padding: 0.6rem 0rem 0.6rem 1.2rem;
+    min-width: 100%;
+    line-height: var(--vp-code-line-height);
+    font-size: var(--vp-code-font-size);
+    color: var(--vp-code-block-color);
+    transition: color .5s;
+    border-radius: 0.5rem;
+}
+
+.md pre {
+    display: block;
+    margin: 1rem 0 1rem 0;
+    background: transparent;
+    overflow-x: auto;
+    tab-size: 4;
+}
+
+.md p {
+    margin: 0.25rem !important;
 }
 </style>
