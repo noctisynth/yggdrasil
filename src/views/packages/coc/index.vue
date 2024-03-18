@@ -1,23 +1,36 @@
 <script setup lang="ts">
 import Header from '@/components/Header.vue';
 import MarkdownIt from 'markdown-it';
-import jsonData from './index.json';
+import plainData from './index.json';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Panel from 'primevue/panel';
+import Tag from 'primevue/tag';
 
+const jsonData: any = plainData;
 const md = new MarkdownIt();
 
-md.render(jsonData.readme)
+function slice_url(urlString: string): string {
+    const url = new URL(urlString)
+    return url.pathname.slice(1)
+}
+
+function link_to(url: string, blank?: boolean) {
+    if (blank == true) {
+        window.open(url, "_blank")
+    } else {
+        window.location.href = url;
+    }
+}
 </script>
 
 <template>
     <main>
         <Header></Header>
         <div class="w-full flex align-items-center justify-content-center">
-            <div class="w-full flex flex-column align-items-start justify-content-center p-6 gap-6"
+            <div class="w-full flex flex-column align-items-start justify-content-center pt-6 p-3 gap-6"
                 style="max-width: 960px;">
                 <Card class="w-full">
                     <template #title>
@@ -26,13 +39,22 @@ md.render(jsonData.readme)
                                 {{ jsonData.metadata.name }}
                                 <span class="text-base text-gray-400">v{{ jsonData.metadata.version }}</span>
                             </h1>
-                            <Button icon="pi pi-github" plain text></Button>
+                            <Button v-if="jsonData.metadata.urls.homepage !== undefined"
+                                @click="link_to(jsonData.metadata.urls.homepage, true)" icon="pi pi-github" plain
+                                text></Button>
                         </div>
                     </template>
                     <template #content>
-                        <p class="mt-0">
+                        <p class="mt-0 mb-1">
                             {{ jsonData.metadata.description }}
                         </p>
+                    </template>
+                    <template #footer>
+                        <div class="flex flex-row flex-wrap gap-3">
+                            <div v-for="topic in jsonData.metadata.topics">
+                                <Tag :value="`#${topic}`"></Tag>
+                            </div>
+                        </div>
                     </template>
                 </Card>
 
@@ -48,9 +70,10 @@ md.render(jsonData.readme)
                             </div>
                             <div class="p-3 pt-2 pr-0">
                                 <div>
-                                    <h2 class="pl-2 text-lg">元数据</h2>
+                                    <h2 class="pl-1 text-lg">元数据</h2>
                                     <div class="flex flex-column align-items-start pb-1">
-                                        <Button icon="pi pi-calendar-plus" :label="'now'" plain text></Button>
+                                        <Button icon="pi pi-calendar-plus" :label="jsonData.doc_create_at" plain
+                                            text></Button>
                                         <Button plain text>
                                             <div class="flex flex-row flex-wrap gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -85,9 +108,35 @@ md.render(jsonData.readme)
                                         </Panel>
                                     </div>
                                 </div>
+                                <div v-if="jsonData.metadata.urls.homepage !== undefined">
+                                    <h2 class="pl-2 text-lg">主页</h2>
+                                    <div class="flex flex-column align-items-start pb-1">
+                                        <Button @click="link_to(jsonData.metadata.urls.homepage)" icon="pi pi-link"
+                                            :label="slice_url(jsonData.metadata.urls.homepage)"
+                                            class="w-full flex flex-row justify-content-start" plain text>
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div v-if="jsonData.metadata.urls.documentation !== undefined">
+                                    <h2 class="pl-2 text-lg">文档</h2>
+                                    <div class="flex flex-column align-items-start pb-1">
+                                        <Button @click="link_to(jsonData.metadata.urls.documentation)" icon="pi pi-box"
+                                            :label="jsonData.metadata.urls.documentation" class="w-full" plain text>
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div v-if="jsonData.metadata.urls.repository !== undefined">
+                                    <h2 class="pl-2 text-lg">仓库</h2>
+                                    <div class="flex flex-column align-items-start pb-1">
+                                        <Button @click="link_to(jsonData.metadata.urls.repository)" icon="pi pi-github"
+                                            :label="slice_url(jsonData.metadata.urls.repository)" class="w-full" plain
+                                            text>
+                                        </Button>
+                                    </div>
+                                </div>
                                 <div>
                                     <h2 class="pl-2 text-lg">作者</h2>
-                                    <div class="flex flex-column align-items-start pb-1 pt-1 p-3 gap-3">
+                                    <div class="flex flex-column align-items-start pb-1">
                                         <div v-for="author in jsonData.metadata.authors">
                                             <Button icon="pi pi-user" :label="author.name" plain text></Button>
                                         </div>
@@ -104,6 +153,13 @@ md.render(jsonData.readme)
 </template>
 
 <style scoped>
+:deep(.p-button-label) {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    flex: 0 1 auto;
+}
+
 .header {
     display: flex;
     align-items: baseline;
