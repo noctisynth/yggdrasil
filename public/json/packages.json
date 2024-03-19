@@ -2,16 +2,19 @@
   {
     "name": "coc",
     "latestVersion": "1.0.0",
-    "lastUpdate": "2024-03-15 21:06"
+    "lastUpdate": "2024-03-15 21:06",
+    "description": "克苏鲁神话跑团规则包"
   },
   {
     "name": "dnd",
     "latestVersion": "1.0.0",
-    "lastUpdate": "2024-03-15 21:07"
+    "lastUpdate": "2024-03-15 21:07",
+    "description": "龙与地下城跑团规则包"
   },
   {
     "name": "scp",
     "latestVersion": "1.0.0",
-    "lastUpdate": "2024-03-15 21:08"
+    "lastUpdate": "2024-03-15 21:08",
+    "description": "SCP 基金会跑团规则包"
   }
 ]
