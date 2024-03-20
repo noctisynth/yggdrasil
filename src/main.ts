@@ -1,5 +1,6 @@
 import "primeflex/primeflex.min.css";
 import "primeicons/primeicons.css";
+import "@/assets/markdown.css"
 
 import { createApp } from "vue";
 import App from "./App.vue";
@@ -12,11 +13,13 @@ import Toolbar from "primevue/toolbar";
 import Listbox from "primevue/listbox";
 import Button from "primevue/button";
 import Card from "primevue/card";
+import { createPinia } from "pinia";
 
 const app = createApp(App);
 
 app.use(PrimeVue);
 app.use(router);
+app.use(createPinia())
 
 app.component("Toast", Toast);
 app.component("TabMenu", TabMenu);

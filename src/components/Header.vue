@@ -3,9 +3,10 @@ import { ref } from "vue";
 import Avatar from 'primevue/avatar';
 import router from "@/router";
 import Button from "primevue/button";
-import { is_light_theme, changeTheme } from "@/scripts/theme";
 import { usePrimeVue } from "primevue/config";
+import { useThemeStore } from "@/stores/theme";
 
+const themestore = useThemeStore()
 const PrimeVue = usePrimeVue()
 const items = ref([
     {
@@ -45,8 +46,8 @@ if (path === '') {
             <span>世界树</span>
         </div>
         <div class="flex flex-row">
-            <Button @click="changeTheme(PrimeVue)" v-if="is_light_theme" icon="pi pi-sun" plain text></Button>
-            <Button @click="changeTheme(PrimeVue)" v-else icon="pi pi-moon" plain text></Button>
+            <Button @click="themestore.changeTheme(PrimeVue)" v-if="!themestore.dark" icon="pi pi-sun" plain text></Button>
+            <Button @click="themestore.changeTheme(PrimeVue)" v-else icon="pi pi-moon" plain text></Button>
             <TabMenu :active-index="active" :model="items"></TabMenu>
         </div>
     </div>

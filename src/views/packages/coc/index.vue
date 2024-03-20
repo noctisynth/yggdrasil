@@ -120,8 +120,8 @@ function tablize(data: { [key: string]: string }): {
                                             <pre class="m-0"><code>ipm add {{ jsonData.metadata.name }}</code></pre>
                                         </Panel>
                                         <Panel header="使用 infini.toml" class="w-full">
-                                            <pre class="m-0"><code>{{ jsonData.metadata.name }} = {{ jsonData.metadata.version
-                                    }}</code></pre>
+                                            <pre class="m-0"><code>{{ jsonData.metadata.name }} = "{{ jsonData.metadata.version
+                                    }}"</code></pre>
                                         </Panel>
                                     </div>
                                 </div>
@@ -167,9 +167,19 @@ function tablize(data: { [key: string]: string }): {
                         <Panel header="规则包指令">
                             <div v-for="(event, name) in jsonData.handlers">
                                 <h2><code>{{ name }}</code>指令</h2>
-                                <span v-if="event.description !== null" class="text-gray-400 pl-2">{{ event.description
-                                    }}</span>
+                                <span v-if="event.description !== null" class="text-gray-400 pl-2">{{
+                                    event.description
+                                }}</span>
                                 <pre v-if="event.usage !== null"><code>{{ event.usage }}</code></pre>
+                                <div class="p-1" v-html="md.render(event.content)"></div>
+                                <div v-for="(cmd, name) in event.sub_cmd">
+                                    <h3><code>{{ name }}</code>选项</h3>
+                                    <span v-if="cmd.description !== null" class="text-gray-400 pl-2">{{
+                                    cmd.description
+                                }}</span>
+                                    <pre v-if="event.usage !== null"><code>{{ cmd.usage }}</code></pre>
+                                    <div class="p-1" v-html="md.render(cmd.content)"></div>
+                                </div>
                             </div>
                         </Panel>
                     </TabPanel>
@@ -179,6 +189,8 @@ function tablize(data: { [key: string]: string }): {
                                 <h2><code>{{ name }}</code></h2>
                                 <span v-if="event.description !== null" class="text-gray-400 pl-2">{{ event.description
                                     }}</span>
+                                <div></div>
+                                <div class="p-1" v-if="event.content !== null" v-html="md.render(event.content)"></div>
                                 <DataTable class="m-2 p-2" showGridlines stripedRows
                                     v-if="Object.keys(event.var_doc).length !== 0" :value="tablize(event.var_doc)">
                                     <Column field="name" header="变量"></Column>
@@ -198,6 +210,7 @@ function tablize(data: { [key: string]: string }): {
                                 <span v-if="event.description !== null" class="text-gray-400 pl-2">{{ event.description
                                     }}</span>
                                 <pre v-if="event.usage !== null"><code>{{ event.usage }}</code></pre>
+                                <div class="p-1" v-if="event.content !== null" v-html="md.render(event.content)"></div>
                             </div>
                         </Panel>
                     </TabPanel>
@@ -208,6 +221,7 @@ function tablize(data: { [key: string]: string }): {
                                 <span v-if="event.description !== null" class="text-gray-400 pl-2">{{ event.description
                                     }}</span>
                                 <pre v-if="event.usage !== null"><code>{{ event.usage }}</code></pre>
+                                <div class="p-1" v-if="event.content !== null" v-html="md.render(event.content)"></div>
                             </div>
                         </Panel>
                     </TabPanel>
@@ -246,42 +260,5 @@ function tablize(data: { [key: string]: string }): {
         display: grid;
         grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
     }
-}
-</style>
-
-<style>
-.md code:not(pre code) {
-    background-color: var(--highlight-bg);
-    font-family: 'Cascadia Mono', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    padding: 0.1rem 0.5rem 0.1rem 0.5rem;
-    tab-size: 4;
-    text-align: left;
-    border-radius: 0.7rem;
-}
-
-.md pre>code {
-    background-color: var(--highlight-bg);
-    font-family: 'Cascadia Mono', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    display: block;
-    padding: 0 20px;
-    padding: 0.6rem 0rem 0.6rem 1.2rem;
-    min-width: 100%;
-    line-height: var(--vp-code-line-height);
-    font-size: var(--vp-code-font-size);
-    color: var(--vp-code-block-color);
-    transition: color .5s;
-    border-radius: 0.5rem;
-}
-
-.md pre {
-    display: block;
-    margin: 1rem 0 1rem 0;
-    background: transparent;
-    overflow-x: auto;
-    tab-size: 4;
-}
-
-.md p {
-    margin: 0.25rem !important;
 }
 </style>
