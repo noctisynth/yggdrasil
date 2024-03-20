@@ -13,10 +13,10 @@ const router = useRouter();
   <main>
     <Header></Header>
     <div class="p-6">
-
       <div class="flex w-full align-items-center justify-content-center flex-column">
         <div class="w-full" style="max-width: 890px;">
-          <div class="bg-primary-100 border-round flex align-items-center justify-content-between flex-wrap mb-3 p-4">
+          <div class="border-round flex align-items-center justify-content-between flex-wrap mb-3 p-4"
+            style="background-color: var(--surface-card);">
             <h1>索引列表</h1>
             <InputText v-if="packages.length !== 0" placeholder="搜索" style="max-width: 100%;"></InputText>
           </div>
@@ -44,7 +44,9 @@ const router = useRouter();
                 {{ pkg.description }}
               </template>
               <template #footer>
-                <Button icon="pi pi-sync" :label="`最后更新: ${pkg.lastUpdate}`" plain text size="small"></Button>
+                <div class="flex flex-row gap-3">
+                  <Button icon="pi pi-sync" :label="`最后更新: ${pkg.lastUpdate}`" plain text size="small"></Button>
+                </div>
               </template>
             </Card>
           </div>
