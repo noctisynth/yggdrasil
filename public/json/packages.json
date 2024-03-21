@@ -21,7 +21,8 @@
       "Repository": ""
     },
     "requires_dist": [
-      "coc-base-package>=1.0"
+      "infini:coc-base-package>=1.0",
+      "requests==2.0.1"
     ],
     "requires_infini": ">=2.0"
   },
@@ -47,7 +48,7 @@
       "Repository": ""
     },
     "requires_dist": [
-      "dnd-base-package>=1.0"
+      "infini:dnd-base-package>=1.0"
     ],
     "requires_infini": ">=2.0"
   },
@@ -73,7 +74,7 @@
       "Repository": ""
     },
     "requires_dist": [
-      "coc-base-package>=1.0"
+      "infini:coc-base-package>=1.0"
     ],
     "requires_infini": ">=2.0"
   }
