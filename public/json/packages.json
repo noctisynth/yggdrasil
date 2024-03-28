@@ -1,81 +1,35 @@
-[
-  {
-    "name": "coc",
-    "latestVersion": "1.0.0",
-    "lastUpdate": "2024-03-15 21:06",
-    "description": "克苏鲁神话跑团规则包",
-    "info": {
-      "author": "小苏",
-      "classifiers": [
-        "coc"
-      ]
-    },
-    "keywords": "infini,example,coc,trpg",
-    "package_url": "/packages/coc",
-    "download_url": "/public/packages/coc/1.0.0/coc-1.0.0.ipk",
-    "platform": null,
-    "project_urls": {
-      "Changelog": "",
-      "Documentation": "",
-      "Homepage": "",
-      "Repository": ""
-    },
-    "requires_dist": [
-      "infini:coc-base-package>=1.0",
-      "requests==2.0.1"
-    ],
-    "requires_infini": ">=2.0"
+{
+  "metadata": {
+    "uuid": "7c12a0e6360e48e9b6b4a2f0be0466f3"
   },
-  {
-    "name": "dnd",
-    "latestVersion": "1.0.0",
-    "lastUpdate": "2024-03-15 21:07",
-    "description": "龙与地下城跑团规则包",
-    "info": {
-      "author": "小苏",
-      "classifiers": [
-        "dnd"
+  "packages": {
+    "coc": {
+      "name": "coc",
+      "latestVersion": "0.1.0",
+      "description": "克苏鲁神话跑团规则包",
+      "authors": [
+        { "name": "\u82cf\u5411\u591c", "email": "fu050409@163.com" }
+      ],
+      "license": "AGPLv3",
+      "topics": ["TRPG", "NocisDice", "HydroRoll"],
+      "urls": {
+        "homepage": "https://www.noctisynth.org/",
+        "documentation": "https://dicer.noctisynth.org/",
+        "repository": "https://github.com/fu050409/infini-coc"
+      },
+      "readme_url": "/packages/coc",
+      "requirements": [],
+      "dependencies": [],
+      "requires_infini": ">=2.0",
+      "lastUpdate": "2024-03-15 21:06",
+      "distributions": [
+        {
+          "version": "0.1.0",
+          "download_url": "/packages/coc/coc-0.1.0.ipk",
+          "hash": "",
+          "yanked": false
+        }
       ]
-    },
-    "keywords": "infini,example,dnd5e,trpg",
-    "package_url": "/packages/dnd",
-    "download_url": "/public/packages/dnd/1.0.0/dnd-1.0.0.ipk",
-    "platform": null,
-    "project_urls": {
-      "Changelog": "",
-      "Documentation": "",
-      "Homepage": "",
-      "Repository": ""
-    },
-    "requires_dist": [
-      "infini:dnd-base-package>=1.0"
-    ],
-    "requires_infini": ">=2.0"
-  },
-  {
-    "name": "scp",
-    "latestVersion": "1.0.0",
-    "lastUpdate": "2024-03-15 21:08",
-    "description": "SCP 基金会跑团规则包",
-    "info": {
-      "author": "小苏",
-      "classifiers": [
-        "scp"
-      ]
-    },
-    "keywords": "infini,example,scp,trpg",
-    "package_url": "/packages/scp",
-    "download_url": "/public/packages/scp/1.0.0/scp-1.0.0.ipk",
-    "platform": null,
-    "project_urls": {
-      "Changelog": "",
-      "Documentation": "",
-      "Homepage": "",
-      "Repository": ""
-    },
-    "requires_dist": [
-      "infini:coc-base-package>=1.0"
-    ],
-    "requires_infini": ">=2.0"
+    }
   }
-]
+}
