@@ -13,7 +13,7 @@ import Column from 'primevue/column';
 import packages from '@/scripts/packages';
 
 const jsonData: any = plainData;
-const index: any = packages.find(item => item.name === jsonData.metadata.name);
+const index = packages[jsonData.metadata.name];
 const distributions = index.distributions;
 
 const md = new MarkdownIt();

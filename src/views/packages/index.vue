@@ -18,7 +18,7 @@ const router = useRouter();
           <div class="border-round flex align-items-center justify-content-between flex-wrap mb-3 p-4"
             style="background-color: var(--surface-card);">
             <h1>索引列表</h1>
-            <InputText v-if="packages.length !== 0" placeholder="搜索" style="max-width: 100%;"></InputText>
+            <InputText v-if="Object.keys(packages).length !== 0" placeholder="搜索" style="max-width: 100%;"></InputText>
           </div>
           <Card v-if="Object.keys(packages).length === 0">
             <template #title>
@@ -33,7 +33,7 @@ const router = useRouter();
             </template>
           </Card>
           <div class="flex flex-column gap-3">
-            <Card v-for="pkg in packages" :key="pkg.name">
+            <Card v-for="(pkg, _) in packages" :key="pkg.name">
               <template #title>
                 <h1 @click="router.push('/packages/' + pkg.name)" class="text-4xl">
                   {{ pkg.name }}
