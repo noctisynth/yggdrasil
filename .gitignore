@@ -39,4 +39,3 @@ __pycache__/
 # Scripts
 .deploy-cache/
 *.db
-*.ipk
