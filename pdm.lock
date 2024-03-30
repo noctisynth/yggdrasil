@@ -207,7 +207,7 @@ files = [
 
 [[package]]
 name = "ipdm"
-version = "0.2.0b4"
+version = "0.2.0b7"
 requires_python = ">=3.8"
 summary = "Infini 包管理器"
 groups = ["dev"]
@@ -221,8 +221,8 @@ dependencies = [
     "virtualenv>=20.25.1",
 ]
 files = [
-    {file = "ipdm-0.2.0b4-py3-none-any.whl", hash = "sha256:cb1b4dc84d4747e202100e8ce51fb4b3f7f327894c0e644de10ceb4dd6dd1877"},
-    {file = "ipdm-0.2.0b4.tar.gz", hash = "sha256:2389034c77cf883be128677eba5bc1932f6b8a120c9b1b5ba7e191b0162cbfb1"},
+    {file = "ipdm-0.2.0b7-py3-none-any.whl", hash = "sha256:093005a04e55111b4825816bcc6748ff1387177efe4d308e98da83957a379b9d"},
+    {file = "ipdm-0.2.0b7.tar.gz", hash = "sha256:2a8abf091d7fcda743acaefc59db94d396150a40f684da806dac2659ae0951bf"},
 ]
 
 [[package]]
