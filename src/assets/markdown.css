@@ -15,9 +15,6 @@
     display: block;
     padding: 0.6rem 0rem 0.6rem 1.2rem;
     min-width: 100%;
-    line-height: var(--vp-code-line-height);
-    font-size: var(--vp-code-font-size);
-    color: var(--vp-code-block-color);
     transition: color .5s;
     border-radius: 0.5rem;
 }
