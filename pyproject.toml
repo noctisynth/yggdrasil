@@ -1,0 +1,28 @@
+[project]
+name = "yggdrasil-deploy"
+version = "0.1.0"
+description = "世界树部署工具"
+authors = [
+    { name = "苏向夜", email = "fu050409@163.com" },
+]
+dependencies = [
+    "typer>=0.12.0",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = { text = "AGPLv3" }
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[project.scripts]
+ipm = "ipm.__main__:main"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "ipdm>=0.2.0-beta",
+]
