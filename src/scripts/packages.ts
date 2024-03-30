@@ -9,20 +9,20 @@ interface PackagesInfo {
     license: string;
     topics: string[];
     urls: {
-      homepage: string;
-      documentation: string;
-      repository: string;
+      homepage?: string;
+      documentation?: string;
+      repository?: string;
     };
     readme_url?: string;
-    requirements: string[];
-    dependencies: string[];
-    requires_infini: string;
+    requirements: { name: string; version: string; yggdrasil: string }[];
+    dependencies: any;
     lastUpdate: string;
     distributions: {
       version: string;
       download_url: string;
       hash: string;
       yanked: boolean;
+      readme_url: string;
     }[];
   };
 }
