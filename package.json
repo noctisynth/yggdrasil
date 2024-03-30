@@ -1,6 +1,6 @@
 {
   "name": "yggdrasil",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,7 +8,8 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build --base=/",
-    "type-check": "vue-tsc --build --force"
+    "type-check": "vue-tsc --build --force",
+    "deploy": "pdm run tools/deploy.py"
   },
   "dependencies": {
     "json": "^11.0.0",
