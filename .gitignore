@@ -28,3 +28,15 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# PDM & Python
+.pdm-python
+.venv/
+.pdm-build/
+__pycache__/
+*.pyc
+
+# Scripts
+.deploy-cache/
+*.db
+*.ipk
