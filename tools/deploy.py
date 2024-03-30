@@ -25,6 +25,7 @@ def deploy(
     package: str = typer.Argument(help="规则包路径"),
     hash: str = typer.Option("", help="哈希值"),
     verify: bool = typer.Option(True, help="验证文件完整性"),
+    force: bool = typer.Option(False, "--force", "-f", help="强制重新部署"),
 ):
     """部署规则包及其文档"""
     info(f"部署规则包...", True)
@@ -50,7 +51,9 @@ def deploy(
     )
     public_path = Path.cwd().joinpath("public", "packages", project.name)
     public_path.mkdir(parents=True, exist_ok=True)
-    target_path = Path.cwd().joinpath("src", "views", "packages", project.name, project.version)
+    target_path = Path.cwd().joinpath(
+        "src", "views", "packages", project.name, project.version
+    )
 
     index_path = Path.cwd().joinpath("public", "json", "packages.json")
     index = json.load(index_path.open("r", encoding="utf-8"))
@@ -83,9 +86,20 @@ def deploy(
     ifp = InfiniFrozenPackage(package_path, name=project.name, version=project.version)
     for distribution in distributions:
         if distribution["version"] == project.version:
-            raise exceptions.ProjectError(
-                f"版本冲突！特定的版本 {project.version} 已经存在！"
-            )
+            if not force:
+                raise exceptions.ProjectError(
+                    f"版本冲突！特定的版本 {project.version} 已经存在！"
+                )
+            else:
+                distribution["readme_url"] = (
+                    f"/packages/{project.name}/{project.version}"
+                )
+                distribution["download_url"] = (
+                    f"/packages/{project.name}/{project.default_name}.ipk"
+                )
+                distribution["hash"] = ifp.hash
+                distribution["yanked"] = False
+            break
     else:
         distributions.append(
             {
